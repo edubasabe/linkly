@@ -1,22 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getSession } from "@/lib/fetch";
-import CreateLinkForm from "./components/CreateLinkForm";
-import ShortLinkDisplay from "./components/ShortLinkDisplay";
 import Layout from "@/components/Layout";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GenerateLink from "./components/GenerateLink";
+import YourLinksCreated from "./components/YourLinksCreated";
 
 function App() {
-  const [shortLink, setShortLink] = useState("");
-
   useEffect(() => {
     getSession();
   }, []);
@@ -24,24 +15,18 @@ function App() {
   return (
     <Layout>
       <Header />
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Shorten Your URL 🚀</CardTitle>
-          <CardDescription>
-            Paste your long URL and get a short link instantly!
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CreateLinkForm
-            onLinkCreated={(shortLink) => setShortLink(shortLink)}
-          />
-        </CardContent>
-        {!!shortLink.length && (
-          <CardFooter>
-            <ShortLinkDisplay shortLink={shortLink} />
-          </CardFooter>
-        )}
-      </Card>
+      <Tabs defaultValue="generate" className="max-w-3xl">
+        <TabsList>
+          <TabsTrigger value="generate">Generate</TabsTrigger>
+          <TabsTrigger value="your-links">Your Links</TabsTrigger>
+        </TabsList>
+        <TabsContent value="generate">
+          <GenerateLink />
+        </TabsContent>
+        <TabsContent value="your-links">
+          <YourLinksCreated />
+        </TabsContent>
+      </Tabs>
       <Footer />
     </Layout>
   );
