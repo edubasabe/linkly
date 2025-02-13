@@ -17,6 +17,7 @@ model Link {
   id         String   @id @default(cuid())  
   shortCode  String   @unique  
   original   String  
+  shortUrl   String
   clicks     Int      @default(0)  
   sessionId  String?  // Store the guest session ID from cookies
   createdAt  DateTime @default(now())  

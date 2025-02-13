@@ -11,7 +11,12 @@ const app = express();
 
 app.use(cookieParser());
 app.use(sessionMiddleware);
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Redirect route should be before API routes

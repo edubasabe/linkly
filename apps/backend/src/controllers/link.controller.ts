@@ -15,15 +15,16 @@ export const createLinkController: RequestHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  const host = `${req.protocol}://${req.get("host")}`;
   try {
     const sessionId = req.cookies.sessionId;
     const { original } = LinkSchema.parse(req.body);
+
     if (!original) {
       res.status(400).json({ error: "Original URL is required" });
     }
 
-    const link = await createLink(original, sessionId);
-
+    const link = await createLink(original, host, sessionId);
     res.status(201).json(link);
   } catch (error) {
     next(error);

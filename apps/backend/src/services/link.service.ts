@@ -1,6 +1,6 @@
 import { generateShortCode } from "@/lib/link";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 export const LinkSchema = z.object({
@@ -8,13 +8,19 @@ export const LinkSchema = z.object({
   userId: z.string().optional(),
 });
 
-export const createLink = async (original: string, sessionId: string) => {
+export const createLink = async (
+  original: string,
+  host: string,
+  sessionId: string
+) => {
   const shortCode = generateShortCode();
+  const shortUrl = `${host}/${shortCode}`;
   const newLink = await prisma.link.create({
     data: {
       original,
       shortCode,
       sessionId,
+      shortUrl,
     },
   });
 
