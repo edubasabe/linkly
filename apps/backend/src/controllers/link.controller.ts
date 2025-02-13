@@ -16,13 +16,13 @@ export const createLinkController: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
+    const sessionId = req.cookies.sessionId;
     const { original } = LinkSchema.parse(req.body);
-
     if (!original) {
       res.status(400).json({ error: "Original URL is required" });
     }
 
-    const link = await createLink(original);
+    const link = await createLink(original, sessionId);
 
     res.status(201).json(link);
   } catch (error) {
@@ -37,7 +37,8 @@ export const getLinksController: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const links = await getAllLinks();
+    const sessionId = req.cookies.sessionId;
+    const links = await getAllLinks(sessionId);
     res.json(links);
   } catch (error) {
     next(error);

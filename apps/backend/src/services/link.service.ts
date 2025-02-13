@@ -8,21 +8,22 @@ export const LinkSchema = z.object({
   userId: z.string().optional(),
 });
 
-export const createLink = async (original: string) => {
+export const createLink = async (original: string, sessionId: string) => {
   const shortCode = generateShortCode();
   const newLink = await prisma.link.create({
     data: {
       original,
       shortCode,
+      sessionId,
     },
   });
 
   return newLink;
 };
 
-export const getAllLinks = async () => {
+export const getAllLinks = async (sessionId: string) => {
   const links = await prisma.link.findMany({
-    include: { user: true },
+    where: { sessionId },
   });
 
   return links;
@@ -31,7 +32,6 @@ export const getAllLinks = async () => {
 export const getLinkById = async (id: string) => {
   const link = await prisma.link.findUnique({
     where: { id },
-    include: { user: true },
   });
   if (!link) {
     throw new Error("Link not found");

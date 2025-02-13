@@ -1,13 +1,16 @@
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
-import { userRouter } from "@/routes/user.routes";
 import { errorHandler } from "@/middleware/error.handler";
 import prisma from "@/lib/prisma";
 import { AppError } from "@/middleware/error.handler";
 import { router } from "@/routes";
+import cookieParser from "cookie-parser";
+import { sessionMiddleware } from "@/middleware/session.middleware";
 
 const app = express();
 
+app.use(cookieParser());
+app.use(sessionMiddleware);
 app.use(cors());
 app.use(express.json());
 
