@@ -8,12 +8,14 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
+    "types": ["node", "react", "react-dom"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
 
     /* Linting */
     "strict": true,
