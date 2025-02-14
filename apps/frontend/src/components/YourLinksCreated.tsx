@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,31 +8,20 @@ import {
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Copy } from "lucide-react";
+import { useLinks } from "@/hooks/useLinks";
+import TableRowItem from "./TableRowItem";
 
-// Sample data for demonstration
-const sampleLinks = [
-  {
-    original: "https://www.example.com/very/long/url/that/needs/shortening",
-    shortened: "https://linkly.short/abc123",
-  },
-  {
-    original: "https://another-example.com/with/a/long/path/to/shorten",
-    shortened: "https://linkly.short/def456",
-  },
-  {
-    original: "https://yet-another-long-url-example.com/path/to/page",
-    shortened: "https://linkly.short/ghi789",
-  },
-];
 export default function YourLinksCreated() {
+  const {
+    getAll: { data: links },
+  } = useLinks();
+
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full max-w-xs xl:max-w-2xl">
       <CardHeader>
         <CardTitle>Your Shortened Links 📊</CardTitle>
         <CardDescription>
@@ -41,37 +29,28 @@ export default function YourLinksCreated() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Original URL</TableHead>
-              <TableHead>Shortened URL</TableHead>
-              <TableHead className="w-[100px]">Copy</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sampleLinks.map((link, index) => (
-              <TableRow key={index}>
-                <TableCell
-                  className="font-medium truncate max-w-[300px]"
-                  title={link.original}
-                >
-                  {link.original}
-                </TableCell>
-                <TableCell>{link.shortened}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    title="Copy shortened URL"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                </TableCell>
+        {!links?.length ? (
+          <p className="text-center text-sm text-gray-500">
+            You haven't shortened any links yet
+          </p>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Original URL</TableHead>
+                <TableHead>Shortened URL</TableHead>
+                <TableHead className="w-[100px]">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {links.map((link, index) => (
+                <TableRow key={index}>
+                  <TableRowItem link={link} />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );
