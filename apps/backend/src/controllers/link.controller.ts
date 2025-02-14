@@ -9,6 +9,7 @@ import {
   DeleteLinkSchema,
 } from "@/services/link.service";
 import { AppError } from "@/middleware/error.handler";
+import { logger } from "@/lib/logger";
 
 export const createLinkController: RequestHandler = async (
   req: Request,
@@ -72,8 +73,10 @@ export const updateLinkController: RequestHandler = async (
   try {
     const data = LinkSchema.partial().parse(req.body);
     const link = await updateLink(req.params.id, data);
+    logger.info(`Updated link ${link.original}`);
     res.json(link);
   } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -90,6 +93,7 @@ export const deleteLinkController: RequestHandler = async (
       throw new AppError(400, "Link ID is required");
     }
     await deleteLink(id);
+    logger.info(`Deleted link [id=${id}]`);
     res.status(204).end();
   } catch (error) {
     next(error);

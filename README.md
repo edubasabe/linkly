@@ -99,4 +99,4 @@ ISC
 
 David Basabe - [@edubasabe](https://github.com/edubasabe)
 
-Project Link: [https://github.com/edubasabe/curotec-fullstack-assesstment](https://github.com/edubasabe/curotec-fullstack-assesstment)
+Project Link: [https://github.com/edubasabe/linkly](https://github.com/edubasabe/linkly)

@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { copyToClipboard } from "@/lib/utils";
 import { useState } from "react";
 
 export default function ShortLinkDisplay({ shortLink }: { shortLink: string }) {
   const [copyText, setCopyText] = useState("Copy to Clipboard 📋");
   const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(shortLink).then(() => {
+    copyToClipboard(shortLink).then(() => {
       setCopyText("Copied! 🎉");
       setTimeout(() => {
         setCopyText("Copy to Clipboard 📋");

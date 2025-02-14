@@ -54,7 +54,7 @@ export const updateLink = async (id: string, data: Prisma.LinkUpdateInput) => {
 };
 
 export const DeleteLinkSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
 });
 export const deleteLink = async (id: string) => {
   await prisma.link.delete({
