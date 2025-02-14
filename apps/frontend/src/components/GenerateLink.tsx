@@ -14,7 +14,7 @@ export default function GenerateLink() {
   const [shortLink, setShortLink] = useState("");
 
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-xs xl:max-w-2xl">
       <CardHeader>
         <CardTitle>Shorten Your URL 🚀</CardTitle>
         <CardDescription>
