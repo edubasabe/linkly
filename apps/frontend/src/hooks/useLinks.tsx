@@ -1,85 +1,27 @@
-import {
-  createLink,
-  deleteLink,
-  getAllLinks,
-  Link,
-  updateLink,
-} from "@/api/link";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getAllLinks, Link } from "@/api/link";
+import { useQuery } from "@tanstack/react-query";
+import { useCreateLink } from "@/hooks/mutations/useCreateLink";
+import { useUpdateLink } from "@/hooks/mutations/useUpdateLink";
+import { useDeleteLink } from "@/hooks/mutations/useDeleteLink";
 
-type Props = {
-  create?: {
-    onSuccess?: (data: Link) => void;
-  };
-  update?: {
-    onSuccess?: (data: Link) => void;
-  };
-  remove?: {
-    onSuccess?: () => void;
-  };
-};
-
-export function useLinks({ create, update, remove }: Props = {}) {
-  const queryClient = useQueryClient();
-
+export function useLinks({
+  onCreateSuccess,
+  onUpdateSuccess,
+  onDeleteSuccess,
+}: {
+  onCreateSuccess?: (data: Link) => void;
+  onUpdateSuccess?: (data: Link) => void;
+  onDeleteSuccess?: () => void;
+} = {}) {
   const getAll = useQuery({
     queryKey: ["links"],
     queryFn: getAllLinks,
   });
 
-  const createMutation = useMutation({
-    mutationKey: ["create-link"],
-    mutationFn: (url: string) => createLink(url),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["links"], (oldData: Link[] = []) => {
-        return [...oldData, data];
-      });
-
-      if (create?.onSuccess) {
-        create.onSuccess(data);
-      }
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationKey: ["update-link"],
-    mutationFn: (updatedLink: Partial<Link>) =>
-      updateLink(updatedLink.id!, updatedLink),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["links"], (oldData: Link[] = []) => {
-        return oldData.map((item) => (item.id === data.id ? data : item));
-      });
-
-      if (update?.onSuccess) {
-        update.onSuccess(data);
-      }
-    },
-  });
-
-  const deleteMutation = useMutation({
-    mutationKey: ["delete-link"],
-    mutationFn: (deletedLink: Partial<Link>) => deleteLink(deletedLink.id!),
-    onSuccess: (_, deletedLink) => {
-      // Handle 204 response by using the original deletedLink data
-      queryClient.setQueryData(["links"], (oldData: Link[] = []) => {
-        return oldData.filter((item) => item.id !== deletedLink.id);
-      });
-
-      // Remove invalidateQueries since we're handling the cache update manually
-      if (remove?.onSuccess) {
-        remove.onSuccess();
-      }
-    },
-    // Add onSettled to handle both success and error cases
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["links"] });
-    },
-  });
-
   return {
-    create: createMutation,
-    update: updateMutation,
-    delete: deleteMutation,
+    create: useCreateLink(onCreateSuccess),
+    update: useUpdateLink(onUpdateSuccess),
+    delete: useDeleteLink(onDeleteSuccess),
     getAll,
   };
 }
