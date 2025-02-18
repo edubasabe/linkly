@@ -5,7 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --exec tsx src/server.ts",
+    "dev": "NODE_ENV=development nodemon --exec tsx src/server.ts",
+    "start": "NODE_ENV=production node dist/server.js",
+    "test": "NODE_ENV=test vitest",
+    "test:watch": "NODE_ENV=test vitest --watch",
+    "test:coverage": "NODE_ENV=test vitest run --coverage",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:seed": "prisma db seed",
@@ -26,14 +30,18 @@
     "nanoid": "^5.0.9",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
+    "vitest": "^3.0.6",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.1",
+    "@types/supertest": "^6.0.2",
+    "@vitest/coverage-v8": "3.0.6",
     "nodemon": "^3.1.9",
     "prisma": "^5.22.0",
+    "supertest": "^7.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }
