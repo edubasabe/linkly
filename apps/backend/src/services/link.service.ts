@@ -15,7 +15,7 @@ export const createLink = async (
 ) => {
   const shortCode = generateShortCode();
   const shortUrl = `${host}/${shortCode}`;
-  const newLink = await prisma.link.create({
+  return await prisma.link.create({
     data: {
       original,
       shortCode,
@@ -23,41 +23,32 @@ export const createLink = async (
       shortUrl,
     },
   });
-
-  return newLink;
 };
 
 export const getAllLinks = async (sessionId: string) => {
-  const links = await prisma.link.findMany({
+  return await prisma.link.findMany({
     where: { sessionId },
   });
-
-  return links;
 };
 
 export const getLinkById = async (id: string) => {
-  const link = await prisma.link.findUnique({
+  return await prisma.link.findUnique({
     where: { id },
   });
-  if (!link) {
-    throw new Error("Link not found");
-  }
-  return link;
 };
 
 export const updateLink = async (id: string, data: Prisma.LinkUpdateInput) => {
-  const link = await prisma.link.update({
+  return await prisma.link.update({
     where: { id },
     data,
   });
-  return link;
 };
 
 export const DeleteLinkSchema = z.object({
   id: z.string(),
 });
 export const deleteLink = async (id: string) => {
-  await prisma.link.delete({
+  return await prisma.link.delete({
     where: { id },
   });
 };

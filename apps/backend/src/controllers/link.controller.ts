@@ -92,6 +92,12 @@ export const deleteLinkController: RequestHandler = async (
     if (!id) {
       throw new AppError(400, "Link ID is required");
     }
+    // Check if the link exists
+    const link = await getLinkById(req.params.id);
+    if (!link) {
+      throw new AppError(404, "Link not found");
+    }
+
     await deleteLink(id);
     logger.info(`Deleted link [id=${id}]`);
     res.status(204).end();
