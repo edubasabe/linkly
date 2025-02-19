@@ -23,16 +23,14 @@ app.use(
 );
 app.use(express.json());
 
-// Serve static files from frontend/dist
-app.use(express.static(FRONTEND_DIST));
-
-// API routes
+// API routes should come first
 app.use("/api", router);
 
-// Redirect route should be before API routes
+// Redirect route for short URLs
 app.get("/:shortCode", redirectController);
 
-// Serve index.html for all other routes (SPA fallback)
+// Static files and SPA fallback should come last
+app.use(express.static(FRONTEND_DIST));
 app.get("*", (_, res) => {
   res.sendFile(path.join(FRONTEND_DIST, "index.html"));
 });

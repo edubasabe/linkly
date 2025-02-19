@@ -16,6 +16,7 @@
     "db:generate": "prisma generate",
     "db:seed": "prisma db seed",
     "db:studio": "prisma db studio",
+    "db:init": "pnpm run db:generate && pnpm run db:push",
     "db:reset": "prisma migrate reset"
   },
   "keywords": [],

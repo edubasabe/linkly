@@ -11,7 +11,9 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "docker:ps": "docker-compose ps"
+    "docker:ps": "docker-compose ps",
+    "db:init": "pnpm --filter backend run db:init",
+    "setup": "cp apps/backend/.env.example apps/backend/.env && cp apps/frontend/.env.example apps/frontend/.env && pnpm install && pnpm docker:up && pnpm db:init"
   },
   "keywords": [
     "nodejs",
