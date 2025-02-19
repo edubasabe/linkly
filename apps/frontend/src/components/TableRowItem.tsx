@@ -9,11 +9,20 @@ import TooltipWrapper from "./TooltipWrapper";
 import ButtonCopy from "./ButtonCopy";
 import ConfirmationModal from "./ConfirmationModal";
 import { useLinks } from "@/hooks/useLinks";
+import { useToast } from "@/hooks/use-toast";
 
 export default function TableRowItem({ link }: { link: Link }) {
+  const { toast } = useToast();
   const {
     delete: { mutate: deleteLink },
-  } = useLinks();
+  } = useLinks({
+    onDeleteSuccess: () => {
+      toast({
+        title: "Link deleted",
+        description: "The link has been deleted successfully",
+      });
+    },
+  });
   const [editMode, setEditMode] = useState(false);
   const formId = useId();
 
@@ -70,7 +79,6 @@ export default function TableRowItem({ link }: { link: Link }) {
                 title={`Delete "${link.original}"?`}
                 description="This will delete the link permanently"
                 onConfirm={() => deleteLink(link)}
-                onCancel={() => console.log("cancel")}
                 className="h-9 w-9 [&_svg]:h-4 [&_svg]:w-4 hover:bg-accent hover:text-accent-foreground rounded-lg flex items-center justify-center"
               >
                 <TooltipWrapper label="Delete link" asChild>

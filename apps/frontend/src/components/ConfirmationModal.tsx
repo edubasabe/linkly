@@ -18,7 +18,7 @@ type Props = {
   description?: string;
   className?: string;
   onConfirm: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 };
 export default function ConfirmationModal({
   children,

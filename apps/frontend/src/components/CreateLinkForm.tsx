@@ -21,11 +21,9 @@ export default function CreateLinkForm({ onLinkCreated }: Props) {
   const {
     create: { mutate },
   } = useLinks({
-    create: {
-      onSuccess: (data) => {
-        onLinkCreated(data.shortUrl);
-        formRef.current?.reset();
-      },
+    onCreateSuccess: (data) => {
+      onLinkCreated(data.shortUrl);
+      formRef.current?.reset();
     },
   });
 
@@ -48,6 +46,7 @@ export default function CreateLinkForm({ onLinkCreated }: Props) {
         <Label htmlFor="url">Long URL</Label>
         <Input
           id="url"
+          type="url"
           placeholder="https://your-long-url-here.com"
           {...register("url")}
         />

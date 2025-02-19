@@ -28,9 +28,7 @@ export default function FormEditLink({
   const {
     update: { mutate, isPending },
   } = useLinks({
-    update: {
-      onSuccess,
-    },
+    onUpdateSuccess: onSuccess,
   });
   const {
     register,

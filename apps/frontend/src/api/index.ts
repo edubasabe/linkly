@@ -73,6 +73,6 @@ export const api = {
       throw new Error("Failed to delete");
     }
 
-    return response.json();
+    return await Promise.resolve();
   },
 };
