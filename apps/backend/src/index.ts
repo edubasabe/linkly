@@ -1,6 +1,6 @@
-import { app } from "@/app";
-import prisma from "@/lib/prisma";
-import { logger } from "@/lib/logger";
+import { app } from "./app.js";
+import prisma from "@/lib/prisma.js";
+import { logger } from "@/lib/logger.js";
 
 const PORT = process.env.PORT || 3000;
 

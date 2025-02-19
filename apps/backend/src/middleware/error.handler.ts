@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Prisma } from "@prisma/client";
 import { ZodError } from "zod";
-import { logger } from "../lib/logger";
+import { logger } from "@/lib/logger";
 
 export class AppError extends Error {
   constructor(public statusCode: number, message: string) {
