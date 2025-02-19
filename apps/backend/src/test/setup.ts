@@ -1,13 +1,15 @@
 import { beforeAll, afterAll, beforeEach } from "vitest";
+import { execSync } from "child_process";
 import prisma from "@/lib/prisma";
 
 beforeAll(async () => {
   try {
-    console.log("Pushing Prisma schema to test database...");
-    // execSync("pnpm run db:push", { stdio: "inherit" });
+    console.log("Wipe test database...");
+    execSync("pnpm run db:generate");
+    execSync("pnpm run db:push");
   } catch (error) {
-    console.error("Failed to push Prisma schema", error);
-    process.exit(1);
+    console.error("Failed to wipe database:", error);
+    throw error;
   }
   return await prisma.$connect();
 });
@@ -17,6 +19,5 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  console.log("beforeEach");
   await prisma.$executeRawUnsafe(`TRUNCATE TABLE "Link" CASCADE;`);
 });
