@@ -6,7 +6,7 @@
     "build": "pnpm --parallel -r run build",
     "start": "pnpm --parallel -r run start",
     "dev": "pnpm --parallel -r run dev",
-    "test": "pnpm --filter backend run test && pnpm --filter frontend run test",
+    "test": "pnpm --filter backend run test && pnpm --filter frontend run test:e2e",
     "dev:backend": "pnpm --filter backend run dev",
     "dev:frontend": "pnpm --filter frontend run dev",
     "docker:up": "docker-compose up -d",

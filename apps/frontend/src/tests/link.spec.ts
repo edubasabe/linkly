@@ -1,12 +1,19 @@
 import { test, expect } from "@playwright/test";
+import { config } from "dotenv";
+
+config({
+  path: ".env.test",
+});
+
+const APP_URL = process.env.APP_URL as string;
 
 test("page loads", async ({ page }) => {
-  await page.goto("http://localhost:3001/");
+  await page.goto(APP_URL);
   await expect(page).toHaveTitle(/Linkly/);
 });
 
 test("creates a link", async ({ page }) => {
-  await page.goto("http://localhost:3001/");
+  await page.goto(APP_URL);
   await page
     .getByRole("textbox", { name: "Long URL" })
     .fill("https://fast.com");
@@ -17,7 +24,7 @@ test("creates a link", async ({ page }) => {
 
 test("updates a link", async ({ page }) => {
   // Create a link
-  await page.goto("http://localhost:3001/");
+  await page.goto(APP_URL);
   await page
     .getByRole("textbox", { name: "Long URL" })
     .fill("https://fast.com");
@@ -41,7 +48,7 @@ test("updates a link", async ({ page }) => {
 
 test("deletes a link", async ({ page }) => {
   // Create a link
-  await page.goto("http://localhost:3001/");
+  await page.goto(APP_URL);
   await page
     .getByRole("textbox", { name: "Long URL" })
     .fill("https://fast.com");
@@ -63,7 +70,7 @@ test("deletes a link", async ({ page }) => {
 
 test("copies a link", async ({ page }) => {
   // Create a link
-  await page.goto("http://localhost:3001/");
+  await page.goto(APP_URL);
   await page
     .getByRole("textbox", { name: "Long URL" })
     .fill("https://fast.com");
@@ -79,7 +86,7 @@ test("copies a link", async ({ page }) => {
 
 test("opens the link in a new tab", async ({ page, context }) => {
   // Create a link
-  await page.goto("http://localhost:3001/");
+  await page.goto(APP_URL);
   await page
     .getByRole("textbox", { name: "Long URL" })
     .fill("https://fast.com");
@@ -87,13 +94,14 @@ test("opens the link in a new tab", async ({ page, context }) => {
   expect(page.getByText("Your shortened URL:"));
 
   // Open the link in a new tab
-  await page.getByRole("button", { name: "Copy to Clipboard 📋" }).click();
-  await page.getByRole("link", { name: "https://fast.com" }).click();
+  const [newPage] = await Promise.all([
+    context.waitForEvent("page"), // Wait for a new page to be created
+    page.getByRole("link", { name: "http://", exact: false }).click(), // Click the link
+  ]);
 
-  const newPage = await context.newPage();
-  await newPage.goto("https://fast.com");
-  await newPage.waitForLoadState("networkidle");
+  const url = newPage.url();
+  console.log(`New tab navigated to: ${url}`);
 
   // Check if the link is opened in a new tab
-  expect(page.url()).toContain("https://fast.com");
+  expect(url).toContain("https://fast.com");
 });

@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "predev": "pnpm run db:init",
     "dev": "NODE_ENV=development nodemon --exec tsx src/index.ts",
     "build": "tsc && tsc-alias -p tsconfig.json",
     "lint": "tsc --noEmit",
