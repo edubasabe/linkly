@@ -2,9 +2,9 @@ import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { errorHandler } from "@/middleware/error.handler";
 import { router } from "@/routes";
-import redirectRouter from "@/routes/redirect.routes";
 import cookieParser from "cookie-parser";
 import { sessionMiddleware } from "@/middleware/session.middleware";
+import { redirectController } from "./controllers/redirect.controller";
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 
 // Redirect route should be before API routes
-app.use("/", redirectRouter);
+app.get("/:shortCode", redirectController);
 
 // API routes
 app.use("/api", router);

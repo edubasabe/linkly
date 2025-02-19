@@ -1,4 +1,5 @@
 import { generateShortCode } from "@/lib/link";
+import { logger } from "@/lib/logger";
 import prisma from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { z } from "zod";
@@ -32,8 +33,16 @@ export const getAllLinks = async (sessionId: string) => {
 };
 
 export const getLinkById = async (id: string) => {
+  logger.info(`Getting link by id: ${id}`);
   return await prisma.link.findUnique({
     where: { id },
+  });
+};
+
+export const getLinkByShortCode = async (shortCode: string) => {
+  logger.info(`Getting link by short code: ${shortCode}`);
+  return await prisma.link.findUnique({
+    where: { shortCode },
   });
 };
 
