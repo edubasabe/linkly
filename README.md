@@ -30,7 +30,7 @@ Before you begin, ensure you have the following installed on your system:
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/edubasabe/linkly/tree/main
 cd linkly
 ```
 
@@ -58,42 +58,19 @@ pnpm docker:up
 pnpm prisma:migrate
 ```
 
-## Development
+## Run the app locally
 
-### Available Scripts
+1. Build the app:
 
-- **Docker Commands**
+```bash
+pnpm run build
+```
 
-  - `pnpm docker:up` - Start the Docker containers
-  - `pnpm docker:down` - Stop and remove the Docker containers
-  - `pnpm docker:logs` - View Docker container logs
-  - `pnpm docker:ps` - List running Docker containers
+2. Run the app:
 
-- **Development Commands**
-  - `pnpm dev` - Start the development server
-  - `pnpm build` - Build the project
-  - `pnpm start` - Start the production server
-
-### Database Connection
-
-The PostgreSQL database is accessible at:
-
-- Host: `localhost`
-- Port: `5432`
-- User: `postgres`
-- Password: `postgres`
-- Database: `linkly_db`
-
-## License
-
-ISC
-
-## Contributing
-
-1. Create your feature branch (`git checkout -b feature/amazing-feature`)
-2. Commit your changes (`git commit -m 'Add some amazing feature'`)
-3. Push to the branch (`git push origin feature/amazing-feature`)
-4. Open a Pull Request
+```bash
+pnpm run start
+```
 
 ## Contact
 
